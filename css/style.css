@@ -257,100 +257,150 @@ h1 {
     grid-column: 1;
 }
 
+/* =========================
+   TRANSACTION RECEIPT
+========================= */
+
 .transaction-panel {
-    grid-column: 2;
+    background: #ffffff;
 
-    grid-row: 2 / 5;
+    border-radius: 14px;
 
-    background: white;
-
-    border-radius: 12px;
-
-    padding: 18px;
+    padding: 20px;
 
     box-shadow:
         0 4px 15px
-        rgba(0, 0, 0, 0.12);
+        rgba(0, 0, 0, 0.10);
 
-    max-height: 650px;
+    max-height: 720px;
 
     overflow-y: auto;
 }
 
+
 .transaction-panel h2 {
-    margin-top: 0;
+    margin: 0 0 18px 0;
+
+    padding-bottom: 14px;
+
+    border-bottom: 2px dashed #d8d8d8;
 
     font-size: 18px;
-
-    padding-bottom: 12px;
-
-    border-bottom: 1px solid #ddd;
 }
 
-.empty-transactions {
+
+/* Individual monthly receipt */
+
+.receipt-month {
+    background: #fafafa;
+
+    border: 1px solid #e4e4e4;
+
+    border-radius: 10px;
+
+    padding: 14px;
+
+    margin-bottom: 18px;
+}
+
+
+/* MONTH 1 / MONTH 2 */
+
+.receipt-month-title {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
     color: #777;
 
-    font-size: 14px;
+    padding-bottom: 10px;
+
+    margin-bottom: 8px;
+
+    border-bottom: 1px dashed #cccccc;
+}
+
+
+/* Individual transaction */
+
+.receipt-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) auto;
+
+    gap: 12px;
+
+    align-items: start;
+
+    padding: 7px 0;
+
+    font-size: 13px;
+}
+
+
+.receipt-description {
+    color: #333;
+
+    line-height: 1.3;
+}
+
+
+.receipt-amount {
+    white-space: nowrap;
+
+    text-align: right;
+
+    font-size: 13px;
+}
+
+
+/* MONEY COLOURS */
+
+.receipt-positive {
+    color: #16803a;
+}
+
+
+.receipt-negative {
+    color: #c0392b;
+}
+
+
+.receipt-debt {
+    color: #a05a00;
+}
+
+
+/* NET CASH FLOW */
+
+.receipt-total {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 10px;
+
+    padding-top: 10px;
+
+    border-top: 2px solid #333;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.receipt-empty {
+    color: #888;
 
     text-align: center;
 
-    padding: 20px 0;
-}
+    padding: 30px 10px;
 
-@media (max-width: 900px) {
-
-    .game-container {
-        grid-template-columns: 1fr;
-    }
-
-    .game-header,
-    .monthly-finances,
-    .dashboard,
-    .event-card,
-    .transaction-panel {
-        grid-column: 1;
-    }
-
-    .transaction-panel {
-        grid-row: auto;
-    }
-}
-
-/* GAME + TRANSACTION LOG LAYOUT */
-
-.game-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 25px;
-
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 280px;
-    column-gap: 20px;
-}
-
-
-/* Everything except transaction log stays on the left */
-
-.game-header,
-.monthly-finances,
-.dashboard,
-.event-card {
-    grid-column: 1;
-}
-
-
-/* Transaction log stays on the right */
-
-.transaction-panel {
-    grid-column: 2;
-    grid-row: 1 / 5;
-
-    background: white;
-    border-radius: 12px;
-    padding: 18px;
-
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
-
-    max-height: 750px;
-    overflow-y: auto;
+    font-size: 13px;
 }
