@@ -158,11 +158,29 @@ function updateTransactionLog() {
                 );
 
 
-                // DEBT
-                if (
-                    transaction.type ===
-                    "transaction-debt"
-                ) {
+                // TRANSFER
+if (
+    transaction.type ===
+    "transaction-transfer"
+) {
+
+    amount.textContent =
+        "$" +
+        Math.abs(transaction.amount)
+            .toLocaleString();
+
+    amount.classList.add(
+        "receipt-transfer"
+    );
+
+}
+
+
+// DEBT
+else if (
+    transaction.type ===
+    "transaction-debt"
+) {
 
                     amount.textContent =
                         "Debt +$" +
@@ -423,21 +441,164 @@ function showRandomEvent() {
 
 function makeChoice(choice) {
 
-    // CASH
-    if (choice.cash) {
+
+    // ========================================
+    // TRANSFER
+    // Example: Cash -> Investments
+    // ========================================
+
+    if (choice.transfer) {
+
+        player.cash += choice.cash || 0;
+
+        player.investments +=
+            choice.investments || 0;
+
+        player.savings +=
+            choice.savings || 0;
+
+
+        addTransaction(
+            choice.transfer.from +
+            " → " +
+            choice.transfer.to,
+
+            -choice.transfer.amount,
+
+            "transaction-transfer"
+        );
+
+    }
+
+
+    // ========================================
+    // NORMAL CASH TRANSACTION
+    // ========================================
+
+    else if (choice.cash) {
 
         player.cash += choice.cash;
 
+
         addTransaction(
-            choice.transaction || choice.text,
+
+            choice.transaction ||
+            choice.text,
+
             choice.cash,
 
             choice.cash > 0
                 ? "transaction-income"
                 : "transaction-expense"
+
         );
+
     }
 
+
+    // ========================================
+    // SAVINGS
+    // ========================================
+
+    if (
+        choice.savings &&
+        !choice.transfer
+    ) {
+
+        player.savings +=
+            choice.savings;
+
+
+        addTransaction(
+            choice.transaction ||
+            choice.text,
+
+            choice.savings,
+
+            "transaction-saving"
+        );
+
+    }
+
+
+    // ========================================
+    // INVESTMENTS
+    // ========================================
+
+    if (
+        choice.investments &&
+        !choice.transfer
+    ) {
+
+        player.investments +=
+            choice.investments;
+
+
+        addTransaction(
+            choice.transaction ||
+            choice.text,
+
+            choice.investments,
+
+            "transaction-investment"
+        );
+
+    }
+
+
+    // ========================================
+    // DEBT
+    // ========================================
+
+    if (choice.debt) {
+
+        player.debt +=
+            choice.debt;
+
+
+        addTransaction(
+            choice.transaction ||
+            choice.text,
+
+            choice.debt,
+
+            "transaction-debt"
+        );
+
+    }
+
+
+    // ========================================
+    // HAPPINESS + KNOWLEDGE
+    // ========================================
+
+    player.happiness +=
+        choice.happiness || 0;
+
+
+    player.knowledge +=
+        choice.knowledge || 0;
+
+
+    // ========================================
+    // MONTHLY FINANCES
+    // ========================================
+
+    processMonthlyFinances();
+
+
+    // Move to next month
+
+    player.month++;
+
+
+    // Update screen
+
+    updateDashboard();
+
+    showRandomEvent();
+
+}
 
     // SAVINGS
     if (choice.savings) {
