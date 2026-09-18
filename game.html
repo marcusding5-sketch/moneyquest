@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -11,7 +10,6 @@
     <title>MoneyQuest</title>
 
     <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
@@ -19,14 +17,42 @@
     <main class="game-container">
 
         <header class="game-header">
-
             <div>
                 <h1>MoneyQuest</h1>
                 <p id="month-display">Month 1</p>
             </div>
-
         </header>
 
+
+        <!-- MONTHLY FINANCES -->
+
+        <section class="monthly-finances">
+
+            <h2>💼 Monthly Finances</h2>
+
+            <div class="finance-summary">
+
+                <div>
+                    <span>Income</span>
+                    <strong class="income" id="salary">+$2,800</strong>
+                </div>
+
+                <div>
+                    <span>Expenses</span>
+                    <strong class="expense" id="living-expenses">-$1,400</strong>
+                </div>
+
+                <div>
+                    <span>Available</span>
+                    <strong id="monthly-leftover">+$1,400</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PLAYER DASHBOARD -->
 
         <section class="dashboard">
 
@@ -52,29 +78,8 @@
 
         </section>
 
-        <section class="monthly-finances">
 
-    <h2>💼 Monthly Finances</h2>
-
-    <div class="finance-row">
-        <span>Monthly Income</span>
-        <strong class="income" id="salary">+$2,800</strong>
-    </div>
-
-    <div class="finance-row">
-        <span>Living Expenses</span>
-        <strong class="expense" id="living-expenses">-$1,400</strong>
-    </div>
-
-    <hr>
-
-    <div class="finance-row">
-        <span>Money Left After Expenses</span>
-        <strong id="monthly-leftover">+$1,400</strong>
-    </div>
-
-</section>
-
+        <!-- LIFE EVENT -->
 
         <section class="event-card">
 
@@ -90,7 +95,6 @@
                 You've just received your first salary.
                 What will you do with it?
             </p>
-
 
             <div id="choices">
 
