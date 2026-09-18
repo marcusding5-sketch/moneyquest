@@ -567,3 +567,29 @@ h1 {
     }
 
 }
+
+
+.result-card {
+    display: none;
+
+    background: white;
+
+    padding: 28px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.10);
+
+    margin-top: 20px;
+}
+
+
+.result-card.show {
+    display: block;
+}
+
+.result-card.show {
+    display: block;
+}
