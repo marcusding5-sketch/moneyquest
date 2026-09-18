@@ -315,3 +315,42 @@ h1 {
         grid-row: auto;
     }
 }
+
+/* GAME + TRANSACTION LOG LAYOUT */
+
+.game-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 25px;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    column-gap: 20px;
+}
+
+
+/* Everything except transaction log stays on the left */
+
+.game-header,
+.monthly-finances,
+.dashboard,
+.event-card {
+    grid-column: 1;
+}
+
+
+/* Transaction log stays on the right */
+
+.transaction-panel {
+    grid-column: 2;
+    grid-row: 1 / 5;
+
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+
+    max-height: 750px;
+    overflow-y: auto;
+}
