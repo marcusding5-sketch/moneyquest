@@ -233,3 +233,85 @@ h1 {
         gap: 7px;
     }
 }
+
+.game-container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 25px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) 280px;
+
+    gap: 20px;
+}
+
+.game-header,
+.monthly-finances,
+.dashboard {
+    grid-column: 1;
+}
+
+.event-card {
+    grid-column: 1;
+}
+
+.transaction-panel {
+    grid-column: 2;
+
+    grid-row: 2 / 5;
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.12);
+
+    max-height: 650px;
+
+    overflow-y: auto;
+}
+
+.transaction-panel h2 {
+    margin-top: 0;
+
+    font-size: 18px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.empty-transactions {
+    color: #777;
+
+    font-size: 14px;
+
+    text-align: center;
+
+    padding: 20px 0;
+}
+
+@media (max-width: 900px) {
+
+    .game-container {
+        grid-template-columns: 1fr;
+    }
+
+    .game-header,
+    .monthly-finances,
+    .dashboard,
+    .event-card,
+    .transaction-panel {
+        grid-column: 1;
+    }
+
+    .transaction-panel {
+        grid-row: auto;
+    }
+}
