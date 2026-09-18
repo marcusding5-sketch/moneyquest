@@ -183,3 +183,50 @@ h1 {
     }
 
 }
+
+.monthly-finances {
+    background: white;
+
+    padding: 25px 30px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.08);
+
+    margin-bottom: 30px;
+}
+
+.monthly-finances h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.finance-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 10px 0;
+
+    font-size: 17px;
+}
+
+.income {
+    color: #16803a;
+}
+
+.expense {
+    color: #c0392b;
+}
+
+.monthly-finances hr {
+    border: none;
+
+    border-top: 1px solid #ddd;
+
+    margin: 10px 0;
+}
