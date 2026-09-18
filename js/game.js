@@ -22,7 +22,10 @@ const player = {
 const transactions = [];
 
 
-// Add transaction to history
+// ========================================
+// ADD TRANSACTION
+// ========================================
+
 function addTransaction(description, amount, type) {
 
     transactions.unshift({
@@ -37,7 +40,7 @@ function addTransaction(description, amount, type) {
 
 
 // ========================================
-// RECEIPT TRANSACTION LOG
+// TRANSACTION RECEIPT
 // ========================================
 
 function updateTransactionLog() {
@@ -50,7 +53,6 @@ function updateTransactionLog() {
     }
 
 
-    // No transactions yet
     if (transactions.length === 0) {
 
         log.innerHTML = `
@@ -73,11 +75,14 @@ function updateTransactionLog() {
     transactions.forEach(transaction => {
 
         if (!groupedTransactions[transaction.month]) {
+
             groupedTransactions[transaction.month] = [];
+
         }
 
         groupedTransactions[transaction.month]
             .push(transaction);
+
     });
 
 
@@ -97,7 +102,9 @@ function updateTransactionLog() {
         const monthSection =
             document.createElement("div");
 
-        monthSection.classList.add("receipt-month");
+        monthSection.classList.add(
+            "receipt-month"
+        );
 
 
         // MONTH TITLE
@@ -111,26 +118,30 @@ function updateTransactionLog() {
         monthTitle.textContent =
             "MONTH " + month;
 
-        monthSection.appendChild(monthTitle);
+        monthSection.appendChild(
+            monthTitle
+        );
 
 
         let netCashFlow = 0;
 
 
-        // Show oldest transaction first
-        // inside each month
+        // Show transactions in order
         monthTransactions
             .slice()
             .reverse()
             .forEach(transaction => {
 
+
                 const row =
                     document.createElement("div");
 
-                row.classList.add("receipt-row");
+                row.classList.add(
+                    "receipt-row"
+                );
 
 
-                // Description
+                // DESCRIPTION
                 const description =
                     document.createElement("span");
 
@@ -149,7 +160,7 @@ function updateTransactionLog() {
                     cleanDescription;
 
 
-                // Amount
+                // AMOUNT
                 const amount =
                     document.createElement("strong");
 
@@ -158,40 +169,55 @@ function updateTransactionLog() {
                 );
 
 
+                // ----------------------------
                 // TRANSFER
-if (
-    transaction.type ===
-    "transaction-transfer"
-) {
+                // ----------------------------
 
-    amount.textContent =
-        "$" +
-        Math.abs(transaction.amount)
-            .toLocaleString();
+                if (
+                    transaction.type ===
+                    "transaction-transfer"
+                ) {
 
-    amount.classList.add(
-        "receipt-transfer"
-    );
-
-}
+                    amount.textContent =
+                        "$" +
+                        Math.abs(
+                            transaction.amount
+                        ).toLocaleString();
 
 
-// DEBT
-else if (
-    transaction.type ===
-    "transaction-debt"
-) {
+                    amount.classList.add(
+                        "receipt-transfer"
+                    );
+
+                }
+
+
+                // ----------------------------
+                // DEBT
+                // ----------------------------
+
+                else if (
+                    transaction.type ===
+                    "transaction-debt"
+                ) {
 
                     amount.textContent =
                         "Debt +$" +
-                        Math.abs(transaction.amount)
-                            .toLocaleString();
+                        Math.abs(
+                            transaction.amount
+                        ).toLocaleString();
+
 
                     amount.classList.add(
                         "receipt-debt"
                     );
 
                 }
+
+
+                // ----------------------------
+                // NORMAL TRANSACTION
+                // ----------------------------
 
                 else {
 
@@ -204,11 +230,14 @@ else if (
                     amount.textContent =
                         sign +
                         "$" +
-                        Math.abs(transaction.amount)
-                            .toLocaleString();
+                        Math.abs(
+                            transaction.amount
+                        ).toLocaleString();
 
 
-                    if (transaction.amount >= 0) {
+                    if (
+                        transaction.amount >= 0
+                    ) {
 
                         amount.classList.add(
                             "receipt-positive"
@@ -225,29 +254,42 @@ else if (
                     }
 
 
-                    // Only CASH movements affect
-                    // Net Cash Flow
+                    // Calculate cash flow
                     if (
                         transaction.type ===
                         "transaction-income" ||
+
                         transaction.type ===
                         "transaction-expense"
                     ) {
 
                         netCashFlow +=
                             transaction.amount;
+
                     }
+
                 }
 
 
-                row.appendChild(description);
-                row.appendChild(amount);
+                row.appendChild(
+                    description
+                );
 
-                monthSection.appendChild(row);
+                row.appendChild(
+                    amount
+                );
+
+                monthSection.appendChild(
+                    row
+                );
+
             });
 
 
+        // ========================================
         // NET CASH FLOW
+        // ========================================
+
         const totalRow =
             document.createElement("div");
 
@@ -276,8 +318,9 @@ else if (
         totalAmount.textContent =
             totalSign +
             "$" +
-            Math.abs(netCashFlow)
-                .toLocaleString();
+            Math.abs(
+                netCashFlow
+            ).toLocaleString();
 
 
         if (netCashFlow >= 0) {
@@ -297,13 +340,26 @@ else if (
         }
 
 
-        totalRow.appendChild(totalLabel);
-        totalRow.appendChild(totalAmount);
+        totalRow.appendChild(
+            totalLabel
+        );
 
-        monthSection.appendChild(totalRow);
+        totalRow.appendChild(
+            totalAmount
+        );
 
-        log.appendChild(monthSection);
+
+        monthSection.appendChild(
+            totalRow
+        );
+
+
+        log.appendChild(
+            monthSection
+        );
+
     });
+
 }
 
 
@@ -314,40 +370,51 @@ else if (
 function updateDashboard() {
 
     document.getElementById("cash").textContent =
-        "$" + player.cash.toLocaleString();
+        "$" +
+        player.cash.toLocaleString();
 
 
     document.getElementById("savings").textContent =
-        "$" + player.savings.toLocaleString();
+        "$" +
+        player.savings.toLocaleString();
 
 
     document.getElementById("investments").textContent =
-        "$" + player.investments.toLocaleString();
+        "$" +
+        player.investments.toLocaleString();
 
 
     document.getElementById("debt").textContent =
-        "$" + player.debt.toLocaleString();
+        "$" +
+        player.debt.toLocaleString();
 
 
     document.getElementById("month-display").textContent =
-        "Month " + player.month;
+        "Month " +
+        player.month;
 
 
     document.getElementById("salary").textContent =
-        "+$" + player.salary.toLocaleString();
+        "+$" +
+        player.salary.toLocaleString();
 
 
     document.getElementById("living-expenses").textContent =
-        "-$" + player.livingExpenses.toLocaleString();
+        "-$" +
+        player.livingExpenses.toLocaleString();
 
 
     const leftover =
-        player.salary - player.livingExpenses;
+        player.salary -
+        player.livingExpenses;
 
 
     document.getElementById("monthly-leftover").textContent =
         (leftover >= 0 ? "+$" : "-$") +
-        Math.abs(leftover).toLocaleString();
+        Math.abs(
+            leftover
+        ).toLocaleString();
+
 }
 
 
@@ -358,7 +425,10 @@ function updateDashboard() {
 function processMonthlyFinances() {
 
     // Receive salary
-    player.cash += player.salary;
+
+    player.cash +=
+        player.salary;
+
 
     addTransaction(
         "Monthly salary",
@@ -368,13 +438,17 @@ function processMonthlyFinances() {
 
 
     // Pay living expenses
-    player.cash -= player.livingExpenses;
+
+    player.cash -=
+        player.livingExpenses;
+
 
     addTransaction(
         "Living expenses",
         -player.livingExpenses,
         "transaction-expense"
     );
+
 }
 
 
@@ -385,32 +459,44 @@ function processMonthlyFinances() {
 function showRandomEvent() {
 
     const randomIndex =
-        Math.floor(Math.random() * events.length);
+        Math.floor(
+            Math.random() *
+            events.length
+        );
 
 
     const event =
         events[randomIndex];
 
 
-    document.getElementById("event-title").textContent =
+    document.getElementById(
+        "event-title"
+    ).textContent =
         event.title;
 
 
-    document.getElementById("event-description").textContent =
+    document.getElementById(
+        "event-description"
+    ).textContent =
         event.description;
 
 
     const choicesContainer =
-        document.getElementById("choices");
+        document.getElementById(
+            "choices"
+        );
 
 
-    choicesContainer.innerHTML = "";
+    choicesContainer.innerHTML =
+        "";
 
 
     event.choices.forEach(choice => {
 
         const button =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
 
         button.textContent =
@@ -424,14 +510,23 @@ function showRandomEvent() {
 
         button.addEventListener(
             "click",
+
             function () {
-                makeChoice(choice);
+
+                makeChoice(
+                    choice
+                );
+
             }
         );
 
 
-        choicesContainer.appendChild(button);
+        choicesContainer.appendChild(
+            button
+        );
+
     });
+
 }
 
 
@@ -444,21 +539,25 @@ function makeChoice(choice) {
 
     // ========================================
     // TRANSFER
-    // Example: Cash -> Investments
+    // Cash -> Investments / Savings
     // ========================================
 
     if (choice.transfer) {
 
-        player.cash += choice.cash || 0;
+        player.cash +=
+            choice.cash || 0;
 
-        player.investments +=
-            choice.investments || 0;
 
         player.savings +=
             choice.savings || 0;
 
 
+        player.investments +=
+            choice.investments || 0;
+
+
         addTransaction(
+
             choice.transfer.from +
             " → " +
             choice.transfer.to,
@@ -466,6 +565,7 @@ function makeChoice(choice) {
             -choice.transfer.amount,
 
             "transaction-transfer"
+
         );
 
     }
@@ -477,7 +577,8 @@ function makeChoice(choice) {
 
     else if (choice.cash) {
 
-        player.cash += choice.cash;
+        player.cash +=
+            choice.cash;
 
 
         addTransaction(
@@ -510,12 +611,14 @@ function makeChoice(choice) {
 
 
         addTransaction(
+
             choice.transaction ||
             choice.text,
 
             choice.savings,
 
             "transaction-saving"
+
         );
 
     }
@@ -535,12 +638,14 @@ function makeChoice(choice) {
 
 
         addTransaction(
+
             choice.transaction ||
             choice.text,
 
             choice.investments,
 
             "transaction-investment"
+
         );
 
     }
@@ -557,12 +662,14 @@ function makeChoice(choice) {
 
 
         addTransaction(
+
             choice.transaction ||
             choice.text,
 
             choice.debt,
 
             "transaction-debt"
+
         );
 
     }
@@ -581,89 +688,28 @@ function makeChoice(choice) {
 
 
     // ========================================
-    // MONTHLY FINANCES
+    // MONTHLY SALARY + EXPENSES
     // ========================================
 
     processMonthlyFinances();
 
 
-    // Move to next month
+    // ========================================
+    // NEXT MONTH
+    // ========================================
 
     player.month++;
 
 
-    // Update screen
+    // Update dashboard
 
     updateDashboard();
 
-    showRandomEvent();
 
-}
-
-    // SAVINGS
-    if (choice.savings) {
-
-        player.savings +=
-            choice.savings;
-
-        addTransaction(
-            choice.transaction || choice.text,
-            choice.savings,
-            "transaction-saving"
-        );
-    }
-
-
-    // INVESTMENTS
-    if (choice.investments) {
-
-        player.investments +=
-            choice.investments;
-
-        addTransaction(
-            choice.transaction || choice.text,
-            choice.investments,
-            "transaction-investment"
-        );
-    }
-
-
-    // DEBT
-    if (choice.debt) {
-
-        player.debt +=
-            choice.debt;
-
-        addTransaction(
-            choice.transaction || choice.text,
-            choice.debt,
-            "transaction-debt"
-        );
-    }
-
-
-    // HAPPINESS
-    player.happiness +=
-        choice.happiness || 0;
-
-
-    // KNOWLEDGE
-    player.knowledge +=
-        choice.knowledge || 0;
-
-
-    // Process salary and expenses
-    processMonthlyFinances();
-
-
-    // Move forward one month
-    player.month++;
-
-
-    // Update page
-    updateDashboard();
+    // Show next event
 
     showRandomEvent();
+
 }
 
 
@@ -672,5 +718,7 @@ function makeChoice(choice) {
 // ========================================
 
 updateDashboard();
+
 updateTransactionLog();
+
 showRandomEvent();
