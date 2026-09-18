@@ -408,3 +408,162 @@ h1 {
 .receipt-transfer {
     color: #555;
 }
+
+/* =========================
+   DECISION RESULT
+========================= */
+
+.result-card {
+    display: none;
+
+    background: white;
+
+    padding: 28px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.10);
+
+    margin-top: 20px;
+}
+
+
+.result-card.show {
+    display: block;
+}
+
+
+.result-label {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    color: #777;
+
+    margin-bottom: 8px;
+}
+
+
+.result-card h2 {
+    margin-top: 0;
+
+    margin-bottom: 10px;
+}
+
+
+#result-description {
+    color: #555;
+
+    line-height: 1.5;
+
+    margin-bottom: 22px;
+}
+
+
+/* Financial changes */
+
+.result-changes {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 22px;
+}
+
+
+.result-changes div {
+    background: #f7f7f7;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 8px;
+
+    padding: 12px;
+}
+
+
+.result-changes span {
+    display: block;
+
+    font-size: 11px;
+
+    color: #777;
+
+    margin-bottom: 5px;
+}
+
+
+.result-changes strong {
+    font-size: 14px;
+}
+
+
+/* Money lesson */
+
+.money-lesson {
+    background: #fff9df;
+
+    border-left: 4px solid #e6b800;
+
+    padding: 15px;
+
+    margin-top: 10px;
+
+    margin-bottom: 20px;
+
+    border-radius: 6px;
+}
+
+
+.money-lesson strong {
+    font-size: 12px;
+
+    letter-spacing: 1px;
+}
+
+
+.money-lesson p {
+    margin:
+
+        8px 0 0 0;
+
+    line-height: 1.5;
+
+    font-size: 14px;
+}
+
+
+/* Continue button */
+
+.continue-button {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+@media (max-width: 700px) {
+
+    .result-changes {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
