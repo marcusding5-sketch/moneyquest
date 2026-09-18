@@ -3,25 +3,15 @@
 // ========================================
 
 const player = {
-
     month: 1,
-
     cash: 3000,
-
     salary: 2800,
-
     livingExpenses: 1400,
-
     savings: 0,
-
     investments: 0,
-
     debt: 0,
-
     happiness: 70,
-
     knowledge: 10
-
 };
 
 
@@ -32,28 +22,23 @@ const player = {
 const transactions = [];
 
 
-// Add a new transaction
-
+// Add transaction to history
 function addTransaction(description, amount, type) {
 
     transactions.unshift({
-
         month: player.month,
-
         description: description,
-
         amount: amount,
-
         type: type
-
     });
 
     updateTransactionLog();
-
 }
 
 
-// Display transactions on the page
+// ========================================
+// RECEIPT TRANSACTION LOG
+// ========================================
 
 function updateTransactionLog() {
 
@@ -65,6 +50,7 @@ function updateTransactionLog() {
     }
 
 
+    // No transactions yet
     if (transactions.length === 0) {
 
         log.innerHTML = `
@@ -87,14 +73,11 @@ function updateTransactionLog() {
     transactions.forEach(transaction => {
 
         if (!groupedTransactions[transaction.month]) {
-
             groupedTransactions[transaction.month] = [];
-
         }
 
         groupedTransactions[transaction.month]
             .push(transaction);
-
     });
 
 
@@ -117,14 +100,16 @@ function updateTransactionLog() {
         monthSection.classList.add("receipt-month");
 
 
+        // MONTH TITLE
         const monthTitle =
             document.createElement("div");
 
-        monthTitle.classList.add("receipt-month-title");
+        monthTitle.classList.add(
+            "receipt-month-title"
+        );
 
         monthTitle.textContent =
             "MONTH " + month;
-
 
         monthSection.appendChild(monthTitle);
 
@@ -132,6 +117,8 @@ function updateTransactionLog() {
         let netCashFlow = 0;
 
 
+        // Show oldest transaction first
+        // inside each month
         monthTransactions
             .slice()
             .reverse()
@@ -143,6 +130,7 @@ function updateTransactionLog() {
                 row.classList.add("receipt-row");
 
 
+                // Description
                 const description =
                     document.createElement("span");
 
@@ -151,7 +139,7 @@ function updateTransactionLog() {
                 );
 
 
-                let cleanDescription =
+                const cleanDescription =
                     transaction.description
                         .replace(/[💼🧾📱💻📈]/g, "")
                         .trim();
@@ -161,6 +149,7 @@ function updateTransactionLog() {
                     cleanDescription;
 
 
+                // Amount
                 const amount =
                     document.createElement("strong");
 
@@ -169,7 +158,7 @@ function updateTransactionLog() {
                 );
 
 
-                // Debt is displayed separately
+                // DEBT
                 if (
                     transaction.type ===
                     "transaction-debt"
@@ -218,36 +207,29 @@ function updateTransactionLog() {
                     }
 
 
-                    // Only cash transactions count
-                    // towards cash flow
-
+                    // Only CASH movements affect
+                    // Net Cash Flow
                     if (
                         transaction.type ===
                         "transaction-income" ||
-
                         transaction.type ===
                         "transaction-expense"
                     ) {
 
                         netCashFlow +=
                             transaction.amount;
-
                     }
-
                 }
 
 
                 row.appendChild(description);
-
                 row.appendChild(amount);
 
                 monthSection.appendChild(row);
-
             });
 
 
-        // Net cash flow
-
+        // NET CASH FLOW
         const totalRow =
             document.createElement("div");
 
@@ -298,67 +280,12 @@ function updateTransactionLog() {
 
 
         totalRow.appendChild(totalLabel);
-
         totalRow.appendChild(totalAmount);
 
         monthSection.appendChild(totalRow);
 
-
         log.appendChild(monthSection);
-
     });
-
-}
-
-
-    // Show message if nothing has happened yet
-
-    if (transactions.length === 0) {
-
-        log.innerHTML =
-            '<p class="empty-transactions">No transactions yet.</p>';
-
-        return;
-    }
-
-
-    log.innerHTML = "";
-
-
-    transactions.forEach(transaction => {
-
-        const item =
-            document.createElement("div");
-
-        item.classList.add("transaction-item");
-
-
-        const sign =
-            transaction.amount >= 0 ? "+" : "-";
-
-        const amount =
-            Math.abs(transaction.amount);
-
-
-        item.innerHTML = `
-            <span class="transaction-month">
-                Month ${transaction.month}
-            </span>
-
-            <span class="transaction-description">
-                ${transaction.description}
-            </span>
-
-            <strong class="${transaction.type}">
-                ${sign}$${amount.toLocaleString()}
-            </strong>
-        `;
-
-
-        log.appendChild(item);
-
-    });
-
 }
 
 
@@ -403,7 +330,6 @@ function updateDashboard() {
     document.getElementById("monthly-leftover").textContent =
         (leftover >= 0 ? "+$" : "-$") +
         Math.abs(leftover).toLocaleString();
-
 }
 
 
@@ -414,26 +340,23 @@ function updateDashboard() {
 function processMonthlyFinances() {
 
     // Receive salary
-
     player.cash += player.salary;
 
     addTransaction(
-        "💼 Monthly salary",
+        "Monthly salary",
         player.salary,
         "transaction-income"
     );
 
 
     // Pay living expenses
-
     player.cash -= player.livingExpenses;
 
     addTransaction(
-        "🧾 Living expenses",
+        "Living expenses",
         -player.livingExpenses,
         "transaction-expense"
     );
-
 }
 
 
@@ -483,19 +406,14 @@ function showRandomEvent() {
 
         button.addEventListener(
             "click",
-
             function () {
-
                 makeChoice(choice);
-
             }
         );
 
 
         choicesContainer.appendChild(button);
-
     });
-
 }
 
 
@@ -505,143 +423,93 @@ function showRandomEvent() {
 
 function makeChoice(choice) {
 
-
-    // ----------------------------
     // CASH
-    // ----------------------------
-
     if (choice.cash) {
 
         player.cash += choice.cash;
 
-
         addTransaction(
-
-            choice.transaction ||
-            choice.text,
-
+            choice.transaction || choice.text,
             choice.cash,
 
             choice.cash > 0
                 ? "transaction-income"
                 : "transaction-expense"
-
         );
-
     }
 
 
-    // ----------------------------
     // SAVINGS
-    // ----------------------------
-
     if (choice.savings) {
 
         player.savings +=
             choice.savings;
 
-
         addTransaction(
-
-            choice.transaction ||
-            choice.text,
-
+            choice.transaction || choice.text,
             choice.savings,
-
             "transaction-saving"
-
         );
-
     }
 
 
-    // ----------------------------
     // INVESTMENTS
-    // ----------------------------
-
     if (choice.investments) {
 
         player.investments +=
             choice.investments;
 
-
         addTransaction(
-
-            choice.transaction ||
-            choice.text,
-
+            choice.transaction || choice.text,
             choice.investments,
-
             "transaction-investment"
-
         );
-
     }
 
 
-    // ----------------------------
     // DEBT
-    // ----------------------------
-
     if (choice.debt) {
 
         player.debt +=
             choice.debt;
 
-
         addTransaction(
-
-            choice.transaction ||
-            choice.text,
-
+            choice.transaction || choice.text,
             choice.debt,
-
             "transaction-debt"
-
         );
-
     }
 
 
-    // ----------------------------
-    // HAPPINESS + KNOWLEDGE
-    // ----------------------------
-
+    // HAPPINESS
     player.happiness +=
         choice.happiness || 0;
 
 
+    // KNOWLEDGE
     player.knowledge +=
         choice.knowledge || 0;
 
 
-    // ----------------------------
-    // MONTHLY SALARY + EXPENSES
-    // ----------------------------
-
+    // Process salary and expenses
     processMonthlyFinances();
 
 
-    // Move to next month
-
+    // Move forward one month
     player.month++;
 
 
-    // Refresh screen
-
+    // Update page
     updateDashboard();
 
     showRandomEvent();
-
 }
 
 
 // ========================================
-// START GAME
+// START MONEYQUEST
 // ========================================
 
 updateDashboard();
-
 updateTransactionLog();
-
 showRandomEvent();
