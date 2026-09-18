@@ -118,6 +118,7 @@ function updateTransactionLog() {
         monthTitle.textContent =
             "MONTH " + month;
 
+
         monthSection.appendChild(
             monthTitle
         );
@@ -126,7 +127,7 @@ function updateTransactionLog() {
         let netCashFlow = 0;
 
 
-        // Show transactions in order
+        // Show oldest transaction first
         monthTransactions
             .slice()
             .reverse()
@@ -254,7 +255,7 @@ function updateTransactionLog() {
                     }
 
 
-                    // Calculate cash flow
+                    // Cash-flow calculation
                     if (
                         transaction.type ===
                         "transaction-income" ||
@@ -278,6 +279,7 @@ function updateTransactionLog() {
                 row.appendChild(
                     amount
                 );
+
 
                 monthSection.appendChild(
                     row
@@ -425,7 +427,6 @@ function updateDashboard() {
 function processMonthlyFinances() {
 
     // Receive salary
-
     player.cash +=
         player.salary;
 
@@ -438,7 +439,6 @@ function processMonthlyFinances() {
 
 
     // Pay living expenses
-
     player.cash -=
         player.livingExpenses;
 
@@ -513,9 +513,7 @@ function showRandomEvent() {
 
             function () {
 
-                makeChoice(
-                    choice
-                );
+                makeChoice(choice);
 
             }
         );
@@ -531,10 +529,154 @@ function showRandomEvent() {
 
 
 // ========================================
+// FORMAT ACCOUNT CHANGE
+// ========================================
+
+function formatChange(before, after) {
+
+    if (before === after) {
+        return "No change";
+    }
+
+
+    return (
+        "$" +
+        before.toLocaleString() +
+        " → $" +
+        after.toLocaleString()
+    );
+
+}
+
+
+// ========================================
+// SHOW DECISION RESULT
+// ========================================
+
+function showDecisionResult(
+    choice,
+    beforeState
+) {
+
+    const resultCard =
+        document.getElementById(
+            "result-card"
+        );
+
+
+    const eventCard =
+        document.querySelector(
+            ".event-card"
+        );
+
+
+    // Hide Life Event
+    if (eventCard) {
+
+        eventCard.style.display =
+            "none";
+
+    }
+
+
+    // Result title
+    document.getElementById(
+        "result-title"
+    ).textContent =
+        choice.text;
+
+
+    // Result explanation
+    document.getElementById(
+        "result-description"
+    ).textContent =
+        choice.result ||
+        "You made a financial decision.";
+
+
+    // CASH CHANGE
+    document.getElementById(
+        "result-cash"
+    ).textContent =
+        formatChange(
+            beforeState.cash,
+            player.cash
+        );
+
+
+    // SAVINGS CHANGE
+    document.getElementById(
+        "result-savings"
+    ).textContent =
+        formatChange(
+            beforeState.savings,
+            player.savings
+        );
+
+
+    // INVESTMENT CHANGE
+    document.getElementById(
+        "result-investments"
+    ).textContent =
+        formatChange(
+            beforeState.investments,
+            player.investments
+        );
+
+
+    // DEBT CHANGE
+    document.getElementById(
+        "result-debt"
+    ).textContent =
+        formatChange(
+            beforeState.debt,
+            player.debt
+        );
+
+
+    // MONEY LESSON
+    document.getElementById(
+        "result-lesson"
+    ).textContent =
+        choice.lesson ||
+        "Think about how this decision affects your financial goals.";
+
+
+    // Show result card
+    if (resultCard) {
+
+        resultCard.classList.add(
+            "show"
+        );
+
+    }
+
+}
+
+
+// ========================================
 // PLAYER MAKES A CHOICE
 // ========================================
 
 function makeChoice(choice) {
+
+
+    // ========================================
+    // SAVE PLAYER STATE BEFORE DECISION
+    // ========================================
+
+    const beforeState = {
+
+        cash: player.cash,
+
+        savings: player.savings,
+
+        investments:
+            player.investments,
+
+        debt: player.debt
+
+    };
 
 
     // ========================================
@@ -688,26 +830,75 @@ function makeChoice(choice) {
 
 
     // ========================================
-    // MONTHLY SALARY + EXPENSES
+    // UPDATE DASHBOARD NOW
     // ========================================
-
-    processMonthlyFinances();
-
-
-    // ========================================
-    // NEXT MONTH
-    // ========================================
-
-    player.month++;
-
-
-    // Update dashboard
 
     updateDashboard();
 
 
-    // Show next event
+    // ========================================
+    // SHOW RESULT
+    // ========================================
 
+    showDecisionResult(
+        choice,
+        beforeState
+    );
+
+}
+
+
+// ========================================
+// CONTINUE TO NEXT MONTH
+// ========================================
+
+function continueToNextMonth() {
+
+
+    // Process salary and expenses
+    processMonthlyFinances();
+
+
+    // Move to next month
+    player.month++;
+
+
+    // Update dashboard
+    updateDashboard();
+
+
+    // Hide result screen
+    const resultCard =
+        document.getElementById(
+            "result-card"
+        );
+
+
+    if (resultCard) {
+
+        resultCard.classList.remove(
+            "show"
+        );
+
+    }
+
+
+    // Show Life Event again
+    const eventCard =
+        document.querySelector(
+            ".event-card"
+        );
+
+
+    if (eventCard) {
+
+        eventCard.style.display =
+            "";
+
+    }
+
+
+    // Generate next event
     showRandomEvent();
 
 }
@@ -722,3 +913,23 @@ updateDashboard();
 updateTransactionLog();
 
 showRandomEvent();
+
+
+// ========================================
+// CONTINUE BUTTON
+// ========================================
+
+const continueButton =
+    document.getElementById(
+        "continue-button"
+    );
+
+
+if (continueButton) {
+
+    continueButton.addEventListener(
+        "click",
+        continueToNextMonth
+    );
+
+}
