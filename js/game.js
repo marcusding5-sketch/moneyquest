@@ -36,6 +36,17 @@ function updateDashboard() {
 
     document.getElementById("month-display").textContent =
         "Month " + player.month;
+    document.getElementById("salary").textContent =
+    "+$" + player.salary.toLocaleString();
+
+document.getElementById("living-expenses").textContent =
+    "-$" + player.livingExpenses.toLocaleString();
+
+const leftover =
+    player.salary - player.livingExpenses;
+
+document.getElementById("monthly-leftover").textContent =
+    "+$" + leftover.toLocaleString();
 
 }
 
