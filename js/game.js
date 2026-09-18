@@ -36,3 +36,44 @@ function updateDashboard() {
 }
 
 updateDashboard();
+
+function showRandomEvent() {
+
+    const randomIndex =
+        Math.floor(Math.random() * events.length);
+
+    const event = events[randomIndex];
+
+    document.getElementById("event-title").textContent =
+        event.title;
+
+    document.getElementById("event-description").textContent =
+        event.description;
+
+
+    const choicesContainer =
+        document.getElementById("choices");
+
+    choicesContainer.innerHTML = "";
+
+
+    event.choices.forEach(choice => {
+
+        const button =
+            document.createElement("button");
+
+        button.textContent = choice.text;
+
+        button.classList.add("choice-button");
+
+        button.addEventListener("click", function () {
+
+            makeChoice(choice);
+
+        });
+
+        choicesContainer.appendChild(button);
+
+    });
+
+}
