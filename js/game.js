@@ -4,6 +4,10 @@ const player = {
 
     cash: 3000,
 
+    salary: 2800,
+
+    livingExpenses: 1400,
+
     savings: 0,
 
     investments: 0,
@@ -32,6 +36,16 @@ function updateDashboard() {
 
     document.getElementById("month-display").textContent =
         "Month " + player.month;
+
+}
+
+function processMonthlyFinances() {
+
+    // Receive monthly salary
+    player.cash += player.salary;
+
+    // Pay monthly living expenses
+    player.cash -= player.livingExpenses;
 
 }
 
@@ -96,13 +110,13 @@ function makeChoice(choice) {
         choice.knowledge || 0;
 
 
-    player.month++;
+    processMonthlyFinances();
 
+player.month++;
 
-    updateDashboard();
+updateDashboard();
 
-    showRandomEvent();
-
+showRandomEvent();
 }
 
 updateDashboard();
