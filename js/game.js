@@ -2,7 +2,7 @@ const player = {
 
     month: 1,
 
-    cash: 5000,
+    cash: 3000,
 
     savings: 0,
 
