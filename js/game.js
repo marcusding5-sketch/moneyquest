@@ -77,3 +77,33 @@ function showRandomEvent() {
     });
 
 }
+
+function makeChoice(choice) {
+
+    player.cash += choice.cash || 0;
+
+    player.savings += choice.savings || 0;
+
+    player.investments +=
+        choice.investments || 0;
+
+    player.debt += choice.debt || 0;
+
+    player.happiness +=
+        choice.happiness || 0;
+
+    player.knowledge +=
+        choice.knowledge || 0;
+
+
+    player.month++;
+
+
+    updateDashboard();
+
+    showRandomEvent();
+
+}
+
+updateDashboard();
+showRandomEvent();
