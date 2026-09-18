@@ -65,6 +65,252 @@ function updateTransactionLog() {
     }
 
 
+    if (transactions.length === 0) {
+
+        log.innerHTML = `
+            <div class="receipt-empty">
+                No transactions yet
+            </div>
+        `;
+
+        return;
+    }
+
+
+    log.innerHTML = "";
+
+
+    // Group transactions by month
+    const groupedTransactions = {};
+
+
+    transactions.forEach(transaction => {
+
+        if (!groupedTransactions[transaction.month]) {
+
+            groupedTransactions[transaction.month] = [];
+
+        }
+
+        groupedTransactions[transaction.month]
+            .push(transaction);
+
+    });
+
+
+    // Newest month first
+    const months =
+        Object.keys(groupedTransactions)
+            .map(Number)
+            .sort((a, b) => b - a);
+
+
+    months.forEach(month => {
+
+        const monthTransactions =
+            groupedTransactions[month];
+
+
+        const monthSection =
+            document.createElement("div");
+
+        monthSection.classList.add("receipt-month");
+
+
+        const monthTitle =
+            document.createElement("div");
+
+        monthTitle.classList.add("receipt-month-title");
+
+        monthTitle.textContent =
+            "MONTH " + month;
+
+
+        monthSection.appendChild(monthTitle);
+
+
+        let netCashFlow = 0;
+
+
+        monthTransactions
+            .slice()
+            .reverse()
+            .forEach(transaction => {
+
+                const row =
+                    document.createElement("div");
+
+                row.classList.add("receipt-row");
+
+
+                const description =
+                    document.createElement("span");
+
+                description.classList.add(
+                    "receipt-description"
+                );
+
+
+                let cleanDescription =
+                    transaction.description
+                        .replace(/[💼🧾📱💻📈]/g, "")
+                        .trim();
+
+
+                description.textContent =
+                    cleanDescription;
+
+
+                const amount =
+                    document.createElement("strong");
+
+                amount.classList.add(
+                    "receipt-amount"
+                );
+
+
+                // Debt is displayed separately
+                if (
+                    transaction.type ===
+                    "transaction-debt"
+                ) {
+
+                    amount.textContent =
+                        "Debt +$" +
+                        Math.abs(transaction.amount)
+                            .toLocaleString();
+
+                    amount.classList.add(
+                        "receipt-debt"
+                    );
+
+                }
+
+                else {
+
+                    const sign =
+                        transaction.amount >= 0
+                            ? "+"
+                            : "-";
+
+
+                    amount.textContent =
+                        sign +
+                        "$" +
+                        Math.abs(transaction.amount)
+                            .toLocaleString();
+
+
+                    if (transaction.amount >= 0) {
+
+                        amount.classList.add(
+                            "receipt-positive"
+                        );
+
+                    }
+
+                    else {
+
+                        amount.classList.add(
+                            "receipt-negative"
+                        );
+
+                    }
+
+
+                    // Only cash transactions count
+                    // towards cash flow
+
+                    if (
+                        transaction.type ===
+                        "transaction-income" ||
+
+                        transaction.type ===
+                        "transaction-expense"
+                    ) {
+
+                        netCashFlow +=
+                            transaction.amount;
+
+                    }
+
+                }
+
+
+                row.appendChild(description);
+
+                row.appendChild(amount);
+
+                monthSection.appendChild(row);
+
+            });
+
+
+        // Net cash flow
+
+        const totalRow =
+            document.createElement("div");
+
+        totalRow.classList.add(
+            "receipt-total"
+        );
+
+
+        const totalLabel =
+            document.createElement("span");
+
+        totalLabel.textContent =
+            "NET CASH FLOW";
+
+
+        const totalAmount =
+            document.createElement("strong");
+
+
+        const totalSign =
+            netCashFlow >= 0
+                ? "+"
+                : "-";
+
+
+        totalAmount.textContent =
+            totalSign +
+            "$" +
+            Math.abs(netCashFlow)
+                .toLocaleString();
+
+
+        if (netCashFlow >= 0) {
+
+            totalAmount.classList.add(
+                "receipt-positive"
+            );
+
+        }
+
+        else {
+
+            totalAmount.classList.add(
+                "receipt-negative"
+            );
+
+        }
+
+
+        totalRow.appendChild(totalLabel);
+
+        totalRow.appendChild(totalAmount);
+
+        monthSection.appendChild(totalRow);
+
+
+        log.appendChild(monthSection);
+
+    });
+
+}
+
+
     // Show message if nothing has happened yet
 
     if (transactions.length === 0) {
