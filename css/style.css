@@ -184,35 +184,39 @@ h1 {
 
 }
 
+
 .monthly-finances {
     background: white;
-
-    padding: 25px 30px;
-
-    border-radius: 15px;
-
-    box-shadow:
-        0 4px 15px
-        rgba(0, 0, 0, 0.08);
-
-    margin-bottom: 30px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    margin: 15px 0;
 }
 
 .monthly-finances h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
+    font-size: 15px;
+    margin: 0 0 10px 0;
 }
 
-.finance-row {
+.finance-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.finance-summary div {
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
+}
 
-    padding: 10px 0;
+.finance-summary span {
+    color: #666;
+    font-size: 13px;
+}
 
-    font-size: 17px;
+.finance-summary strong {
+    font-size: 14px;
 }
 
 .income {
@@ -223,10 +227,9 @@ h1 {
     color: #c0392b;
 }
 
-.monthly-finances hr {
-    border: none;
-
-    border-top: 1px solid #ddd;
-
-    margin: 10px 0;
+@media (max-width: 700px) {
+    .finance-summary {
+        grid-template-columns: 1fr;
+        gap: 7px;
+    }
 }
